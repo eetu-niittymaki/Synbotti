@@ -1,7 +1,5 @@
 const Discord = require("discord.js")
 const dotenv = require("dotenv")
-const fs = require("fs")
-const { get } = require("http")
 const gdrive = require('./gdriveServer.js')
 const client = new Discord.Client()
 
@@ -15,13 +13,13 @@ client.once("ready", async () => {
 
 const readSheet = () => {
     countMem = gdrive.getMembers()
-    if (get > count) {
+    if (countMem > count) {
         count = countMem
         sendMessage()
     }
 }
 
-setTimeout(readSheet(),1000 * 60 * 60 * 24)
+setTimeout(readSheet(),1000 * 60 * 60 * 12)
 // For testing purposes only
 /*
 client.on("message", message => {

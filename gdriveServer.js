@@ -4,7 +4,7 @@ const dotenv = require("dotenv")
 dotenv.config()
 
 // Sheet IDs
-const sheet = process.env.SHEET
+const memberSheet = process.env.SHEET
 
 // Authenticates connection to Google Sheets
 const authentication = async () => {
@@ -22,39 +22,16 @@ const authentication = async () => {
   return { sheets }
 }
 
-// Read prizes from spreadsheet
-const getPrize = async () => {
-  try {
-    const { sheets } = await authentication()
-
-    const response = await sheets.spreadsheets.values.get({
-      spreadsheetId: prizes,
-      range: 'Taulukko1'
-    })
-    const randomPrize = await getRandom(response.data.values)
-    for (let i = 0; i < response.data.values.length; i++) { // Loop through response to find prize index
-      if (response.data.values[i] === randomPrize) {
-        console.log(randomPrize, i)
-        index = i
-      }
-    }
-    return randomPrize
-  } catch(e) {
-    console.log(e)
-  }
-}
-
 // Read persons who have already entered raffle
-const getHasEntered = async () => {
+const getMembers = async () => {
   try {
     const { sheets } = await authentication()
 
     const response = await sheets.spreadsheets.values.get({
-      spreadsheetId: hasEnteredId,
+      spreadsheetId: memberSheet,
       range: 'Taulukko1'
     })
-    console.log(typeof response.data.values)
-    return response.data.values
+    return response.data.values.length
   } catch(e) {
     console.log(e)
   }
@@ -75,4 +52,4 @@ drive.files.list({}, (err, res) => {
   })
 */
 
-module.exports = { getPrize, getHasEntered}
+module.exports = { getMembers}
