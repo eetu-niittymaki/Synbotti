@@ -29,7 +29,7 @@ const readSheet = async () => {
     }
 }
 
-setTimeout(readSheet(), 1000 * 60 * 60 * 12)
+setTimeout(readSheet, 1000 * 60 * 60 * 12)
 
 const sendMessage = (countMem) => {
     client.on('ready', async () => {
