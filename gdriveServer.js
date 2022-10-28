@@ -4,7 +4,8 @@ const dotenv = require("dotenv")
 dotenv.config()
 
 // Sheet ID
-const memberSheet = process.env.SHEET
+const sheet1 = process.env.SHEET_ONE
+const sheet2 = process.env.SHEET_TWO
 
 // Authenticates connection to Google Sheets
 const authentication = async () => {
@@ -12,7 +13,7 @@ const authentication = async () => {
       keyFile: 'credentials.json',
       scopes: [ "https://www.googleapis.com/auth/spreadsheets", 
                 "https://www.googleapis.com/auth/drive",
-                'https://www.googleapis.com/auth/forms.body.readonly' ]
+                 ]
   })
 
   const client = await auth.getClient()
@@ -28,12 +29,16 @@ const getMembers = async () => {
   try {
     const { sheets } = await authentication()
 
-    const response = await sheets.spreadsheets.values.get({
-      spreadsheetId: memberSheet,
-      range: "A:X",
+    const res1 = await sheets.spreadsheets.values.get({
+      spreadsheetId: sheet1,
+      range: "A:Z",
     })
-    console.log(response.data.values.length)
-    return response.data.values.length
+
+    const res2 = await sheets.spreadsheets.values.get({
+      spreadsheetId: sheet2,
+      range: "A:Z",
+    })
+    return res1.data.values.length + res2.data.values.length 
   } catch(e) {
     console.log(e)
   }

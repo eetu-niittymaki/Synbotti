@@ -17,10 +17,11 @@ let count = 0
 const file = "log.txt"
 
 // Runs once on bot startup
-client.once("ready", () => {
-    //const data = fs.readFileSync(file, 'utf-8')
-    //count = Number(data)
-    readSheet()
+client.once("ready", async () => {
+    //const data = fs.readFileSync(file, 'utf-8') 
+    data = await gdrive.getMembers()
+    count = data
+    console.log("count = ",count)
     console.log("Ready!")
 })
 
@@ -39,9 +40,9 @@ const readSheet = async () => {
 setTimeout(readSheet, 1000 * 60 * 60 * 12)
 
 const sendMessage = (countMem) => {
-    client.on('ready',  () => {
-        const channel = guild.channels.array().filter(c => c.name.toLowerCase() === 'synbotti')
-        channel.send(`Uusia jäseniä: ${countMem-count}`)
+    client.on('ready', async () => {
+        const channel =  await guild.channels.array().filter(c => c.name.toLowerCase() === 'synbotti')
+        await channel.send(`Uusia jäseniä: ${countMem-count}`)
     })
 }
 
