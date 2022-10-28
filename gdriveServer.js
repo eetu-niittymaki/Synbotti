@@ -22,7 +22,7 @@ const authentication = async () => {
   return { sheets }
 }
 
-// Read persons who have already entered raffle
+// Returns row count of members sheet
 const getMembers = async () => {
   try {
     const { sheets } = await authentication()
@@ -52,4 +52,4 @@ drive.files.list({}, (err, res) => {
   })
 */
 
-module.exports = { getMembers}
+module.exports = { getMembers }

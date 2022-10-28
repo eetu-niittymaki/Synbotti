@@ -9,13 +9,15 @@ dotenv.config()
 let count = 0
 const file = "log.txt"
 
-client.once("ready", async () => {
-    const data = fs.readFileSync(file, 'utf8')
+// Runs once on bot startup
+client.once("ready", () => {
+    const data = fs.readFileSync(file, 'utf-8')
     count = int(data)
-    await readSheet()
+    readSheet()
     console.log("Ready!")
 })
 
+// Gets sheet row count
 const readSheet = async () => {
     countMem = await gdrive.getMembers()
     if (countMem > count) {
@@ -27,7 +29,7 @@ const readSheet = async () => {
     }
 }
 
-setTimeout(readSheet(), (1000 * 60 * 60 * 12))
+setTimeout(readSheet(), 1000 * 60 * 60 * 12)
 
 const sendMessage = (countMem) => {
     client.on('ready', async () => {
