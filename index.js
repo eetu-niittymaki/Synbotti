@@ -4,9 +4,10 @@ const fs = require("fs")
 const gdrive = require('./gdriveServer.js')
 const client = new Client({
     intents: [ 
-        GatewayIntentBits.Guilds,
-		GatewayIntentBits.GuildMessages,
-		GatewayIntentBits.MessageContent, 
+        //GatewayIntentBits.Guilds,
+		//GatewayIntentBits.GuildMessages,
+		//GatewayIntentBits.MessageContent, 
+        //GatewayIntentBits.DirectMessages, 
     ]
   })
 
@@ -17,8 +18,8 @@ const file = "log.txt"
 
 // Runs once on bot startup
 client.once("ready", () => {
-    const data = fs.readFileSync(file, 'utf-8')
-    count = int(data)
+    //const data = fs.readFileSync(file, 'utf-8')
+    //count = Number(data)
     readSheet()
     console.log("Ready!")
 })
@@ -29,9 +30,9 @@ const readSheet = async () => {
     if (countMem > count) {
         count = countMem
         sendMessage(countMem)
-        fs.writeFile(file, countMem, (err) => {
+        /*fs.writeFile(file, countMem, (err) => {
             if (err) return console.log(err)
-        })
+        })*/
     }
 }
 

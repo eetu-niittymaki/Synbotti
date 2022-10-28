@@ -11,7 +11,8 @@ const authentication = async () => {
   const auth = new google.auth.GoogleAuth({
       keyFile: 'credentials.json',
       scopes: [ "https://www.googleapis.com/auth/spreadsheets", 
-                "https://www.googleapis.com/auth/drive" ]
+                "https://www.googleapis.com/auth/drive",
+                'https://www.googleapis.com/auth/forms.body.readonly' ]
   })
 
   const client = await auth.getClient()
@@ -29,8 +30,9 @@ const getMembers = async () => {
 
     const response = await sheets.spreadsheets.values.get({
       spreadsheetId: memberSheet,
-      range: 'Taulukko1'
+      range: "A:X",
     })
+    console.log(response.data.values.length)
     return response.data.values.length
   } catch(e) {
     console.log(e)
