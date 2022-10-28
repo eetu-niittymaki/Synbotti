@@ -8,35 +8,25 @@ dotenv.config()
 let count = 0
 
 client.once("ready", async () => {
+    count = await gdrive.getMembers()
     console.log("Ready!")
 })
 
-const readSheet = () => {
-    countMem = gdrive.getMembers()
+const readSheet = async () => {
+    countMem = await gdrive.getMembers()
     if (countMem > count) {
         count = countMem
-        sendMessage()
+        sendMessage(countMem)
     }
 }
 
-setTimeout(readSheet(),1000 * 60 * 60 * 12)
-// For testing purposes only
-/*
-client.on("message", message => {
-    if (message.content === "!arpa") {
-        start(message)
-    }
-})
-*/
-const sendMessage = () => {
-    client.on('ready', () => {
-    const list = client.guilds.get("guild ID");
-    list.members.forEach(member => {
-       if (member.roles.some(role => role.name === 'Jäsenvastaava')) {
-          member.send("Uusi jäsen!")
-       }
-    });  
-  });
+setTimeout(readSheet(), (1000 * 60 * 60 * 12))
+
+const sendMessage = (countMem) => {
+    client.on('ready', async () => {
+        const channel = guild.channels.array().filter(c => c.name.toLowerCase() === 'synbotti')
+        await channel.send(`Uusia jäseniä: ${countMem-count}`)
+    })
 }
 
 client.login(process.env.TOKEN)

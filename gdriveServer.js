@@ -3,7 +3,7 @@ const dotenv = require("dotenv")
 
 dotenv.config()
 
-// Sheet IDs
+// Sheet ID
 const memberSheet = process.env.SHEET
 
 // Authenticates connection to Google Sheets
