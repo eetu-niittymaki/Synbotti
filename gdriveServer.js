@@ -27,7 +27,7 @@ const authentication = async () => {
 const getMembers = async () => {
   try {
     const { sheets } = await authentication()
-    let count =0
+    let count = 0
     for (let i=0; i < sheetArray.length; i++) {
       const res = await sheets.spreadsheets.values.get({
         spreadsheetId: sheetArray[i],

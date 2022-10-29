@@ -2,7 +2,7 @@
 //     Requires Node 16.9 or higher!    //
 ////////////////////////////////////////*/
 
-const { Client, GatewayIntentBits } = require("discord.js")
+const { Client, GatewayIntentBits, Events } = require("discord.js")
 const dotenv = require("dotenv")
 const fs = require("fs")
 const gdrive = require('./gdriveServer.js')
@@ -33,6 +33,7 @@ client.once("ready", async () => {
         count = await gdrive.getMembers()
         //console.log(count)
     }
+    readSheet()
     console.log("Ready!")
 })
 
@@ -40,21 +41,19 @@ client.once("ready", async () => {
 const readSheet = async () => {
     countMem = await gdrive.getMembers()
     if (countMem > count) {
-        count = countMem
         sendMessage(countMem)
-        fs.writeFile(file, countMem, (err) => {
+        fs.writeFile(file, countMem.toString(), (err) => {
             if (err) return console.log(err)
         })
+        count = countMem
     } else {
-        console.log("No new members")
+        console.log("No new members", "[" + new Date().toString() + "]")
     }
 }
 
 const sendMessage = (countMem) => {
-    client.on('ready', async guild => {
-        const channel =  await guild.channels.array().filter(c => c.name.toLowerCase() === 'synbotti')
-        await channel.send({content: `Uusia jäseniä: ${countMem-count}`,})
-    })
+    const channel = client.channels.cache.get('1035617438286499951')
+    channel.send(`Uusia jäseniä: ${countMem-count}`)
 }
 
 setInterval(readSheet, 1000 * 60 * 60 * 12)
