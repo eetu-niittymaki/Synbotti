@@ -2,8 +2,9 @@
 //     Requires Node 16.9 or higher!    //
 ////////////////////////////////////////*/
 
-const { Client, GatewayIntentBits, Events } = require("discord.js")
+const { Client, GatewayIntentBits } = require("discord.js")
 const dotenv = require("dotenv")
+dotenv.config()
 const fs = require("fs")
 const gdrive = require('./gdriveServer.js')
 const client = new Client({
@@ -15,8 +16,6 @@ const client = new Client({
     ]
   })
 
-dotenv.config()
-
 client.login(process.env.TOKEN)
 
 let count = 0
@@ -26,7 +25,7 @@ const file = "log.csv"
 client.once("ready", async () => {
     const data = fs.readFileSync(file, 'utf-8') 
     let lines = data.split(/\r?\n/)
-    if (data[0]) {
+    if (data[0]) { // Check if content on csv first line
         count = Number(lines)
         //console.log(count)
     } else {
@@ -52,7 +51,7 @@ const readSheet = async () => {
 }
 
 const sendMessage = (countMem) => {
-    const channel = client.channels.cache.get('1035617438286499951')
+    const channel = client.channels.cache.get(process.env.CHANNEL_ID)
     channel.send(`Uusia jäseniä: ${countMem-count}`)
 }
 

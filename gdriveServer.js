@@ -4,7 +4,7 @@ const dotenv = require("dotenv")
 dotenv.config()
 
 // Sheet ID
-const sheetArray = [process.env.SHEET_ONE, process.env.SHEET_TWO]
+const sheetIDs = [process.env.SHEET_ONE, process.env.SHEET_TWO]
 
 // Authenticates connection to Google Sheets
 const authentication = async () => {
@@ -27,10 +27,11 @@ const authentication = async () => {
 const getMembers = async () => {
   try {
     const { sheets } = await authentication()
+
     let count = 0
-    for (let i=0; i < sheetArray.length; i++) {
+    for (let i=0; i < sheetIDs.length; i++) { // Loops over and makes requests on all given sheet ids
       const res = await sheets.spreadsheets.values.get({
-        spreadsheetId: sheetArray[i],
+        spreadsheetId: sheetIDs[i],
         range: "A:Z",
       })
       count += res.data.values.length
