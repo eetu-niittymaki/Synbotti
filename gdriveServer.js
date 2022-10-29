@@ -11,7 +11,7 @@ const sheet2 = process.env.SHEET_TWO
 const authentication = async () => {
   const auth = new google.auth.GoogleAuth({
       keyFile: 'credentials.json',
-      scopes: [ "https://www.googleapis.com/auth/spreadsheets", 
+      scopes: [ "https://www.googleapis.com/auth/spreadsheets.readonly", 
                 "https://www.googleapis.com/auth/drive",
                  ]
   })
@@ -30,7 +30,7 @@ const getMembers = async () => {
     const { sheets } = await authentication()
 
     const res1 = await sheets.spreadsheets.values.get({
-      spreadsheetId: sheet1,
+      spreadsheetId: sheet1 ,
       range: "A:Z",
     })
 

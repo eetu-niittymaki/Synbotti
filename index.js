@@ -17,20 +17,22 @@ const client = new Client({
 
 dotenv.config()
 
+client.login(process.env.TOKEN)
+
 let count = 0
-const file = "log.txt"
+const file = "log.csv"
 
 // Runs once on bot startup
 client.once("ready", async () => {
     const data = fs.readFileSync(file, 'utf-8') 
-    let toString = data.toString()
-    let lines = toString.split("\n")
-    if (lines.length-1 > 0) {
+    let lines = data.split(/\r?\n/)
+    if (data[0]) {
         count = Number(lines)
+        //console.log(count)
     } else {
         count = await gdrive.getMembers()
+        //console.log(count)
     }
-    console.log("count = ",count)
     console.log("Ready!")
 })
 
@@ -56,5 +58,3 @@ const sendMessage = (countMem) => {
 }
 
 setInterval(readSheet, 1000 * 60 * 60 * 12)
-
-client.login(process.env.TOKEN)

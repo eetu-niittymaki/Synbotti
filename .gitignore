@@ -1,4 +1,4 @@
 .env
 /node_modules
-log.txt
+log.csv
 credentials.json
