@@ -45,16 +45,16 @@ const getMembers = async () => {
 // prints all files and folders service account has access to
 /*
 drive.files.list({}, (err, res) => {
-    if (err) throw err
-    const files = res.data.files;
-    if (files.length) {
-    files.map((file) => {
-      console.log(file)
-    })
-    } else {
-      console.log('No files found')
-    }
-  })
+if (err) throw err
+const files = res.data.files;
+if (files.length) {
+files.map((file) => {
+  console.log(file)
+})
+} else {
+  console.log('No files found')
+}
+})
 */
 
 module.exports = { getMembers }

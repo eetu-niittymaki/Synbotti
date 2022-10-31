@@ -20,12 +20,13 @@ client.login(process.env.TOKEN)
 
 let count = 0
 const file = "log.csv"
+const date = ", "  + new Date().toString().substring(4, 21)
 
 // Runs once on bot startup
 client.once("ready", async () => {
     const data = fs.readFileSync(file, 'utf-8') 
-    let lines = data.split(/\r?\n/)
     if (data[0]) { // Check if content on csv first line
+        const lines = data.split(",")[0]
         count = Number(lines)
         //console.log(count)
     } else {
@@ -38,15 +39,15 @@ client.once("ready", async () => {
 
 // Gets sheet row count
 const readSheet = async () => {
-    countMem = await gdrive.getMembers()
+    const countMem = await gdrive.getMembers()
     if (countMem > count) {
         sendMessage(countMem)
-        fs.writeFile(file, countMem.toString(), (err) => {
+        fs.writeFile(file, countMem.toString() + date, (err) => {
             if (err) return console.log(err)
         })
         count = countMem
     } else {
-        console.log("No new members", "[" + new Date().toString() + "]")
+        console.log("No new members", "[" + new Date().toString().substring(4, 21) + "]")
     }
 }
 
